@@ -21,7 +21,7 @@
           <mxGeometry height="26" width="140" y="104" as="geometry" />
         </mxCell>
         <mxCell id="1D4_eGwMI1QoCOs6avCR-16" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Operation" vertex="1">
-          <mxGeometry height="156" width="140" x="350" y="234" as="geometry" />
+          <mxGeometry height="130" width="140" x="350" y="234" as="geometry" />
         </mxCell>
         <mxCell id="1D4_eGwMI1QoCOs6avCR-25" parent="1D4_eGwMI1QoCOs6avCR-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- id: int" vertex="1">
           <mxGeometry height="26" width="140" y="26" as="geometry" />
@@ -34,9 +34,6 @@
         </mxCell>
         <mxCell id="1D4_eGwMI1QoCOs6avCR-19" parent="1D4_eGwMI1QoCOs6avCR-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- cost: decimal?" vertex="1">
           <mxGeometry height="26" width="140" y="104" as="geometry" />
-        </mxCell>
-        <mxCell id="1D4_eGwMI1QoCOs6avCR-53" parent="1D4_eGwMI1QoCOs6avCR-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- worker: Worker" vertex="1">
-          <mxGeometry height="26" width="140" y="130" as="geometry" />
         </mxCell>
         <mxCell id="1D4_eGwMI1QoCOs6avCR-41" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;div&gt;Status&lt;/div&gt;" vertex="1">
           <mxGeometry height="104" width="140" x="100" y="430" as="geometry" />
@@ -109,14 +106,16 @@
         <mxCell id="1D4_eGwMI1QoCOs6avCR-74" connectable="0" parent="1D4_eGwMI1QoCOs6avCR-72" style="edgeLabel;resizable=1;html=1;align=right;verticalAlign=bottom;fontFamily=Helvetica;fontSize=12;fontColor=default;" value="0..*" vertex="1">
           <mxGeometry relative="1" x="1" as="geometry" />
         </mxCell>
-        <mxCell id="1D4_eGwMI1QoCOs6avCR-59" edge="1" parent="1" source="1D4_eGwMI1QoCOs6avCR-53" style="endArrow=block;endFill=1;html=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=top;rounded=0;fontFamily=Helvetica;fontSize=12;fontColor=default;resizable=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="1D4_eGwMI1QoCOs6avCR-54" value="">
+        <mxCell id="1D4_eGwMI1QoCOs6avCR-59" edge="1" parent="1" source="1D4_eGwMI1QoCOs6avCR-16" style="endArrow=block;endFill=1;html=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=top;rounded=0;fontFamily=Helvetica;fontSize=12;fontColor=default;resizable=1;" target="1D4_eGwMI1QoCOs6avCR-54" value="">
           <mxGeometry relative="1" x="-1" as="geometry">
-            <mxPoint x="270" y="460" as="sourcePoint" />
+            <mxPoint x="490" y="377" as="sourcePoint" />
             <mxPoint x="430" y="460" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="1D4_eGwMI1QoCOs6avCR-60" connectable="0" parent="1D4_eGwMI1QoCOs6avCR-59" style="edgeLabel;resizable=1;html=1;align=left;verticalAlign=bottom;fontFamily=Helvetica;fontSize=12;fontColor=default;" value="1" vertex="1">
-          <mxGeometry relative="1" x="-1" as="geometry" />
+          <mxGeometry relative="1" x="-1" as="geometry">
+            <mxPoint x="5" y="26" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="1D4_eGwMI1QoCOs6avCR-61" connectable="0" parent="1" style="edgeLabel;resizable=1;html=1;align=left;verticalAlign=bottom;fontFamily=Helvetica;fontSize=12;fontColor=default;rotation=0;" value="0..*" vertex="1">
           <mxGeometry height="20" width="30" x="520" y="450" as="geometry" />
