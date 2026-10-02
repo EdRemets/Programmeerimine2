@@ -14,6 +14,8 @@ namespace KooliProjekt.Application.Data
         public DateTime date { get; set; }
 
         public Status status { get; set; }
+
+        [Range(0, double.MaxValue)]
         public decimal? cost { get; set; }
 
         [Required]
