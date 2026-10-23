@@ -1,12 +1,13 @@
-﻿using KooliProjekt.Application.Data;
+﻿using KooliProjekt.Application.Dto;
+using KooliProjekt.Application.Infrastructure.Paging;
+using KooliProjekt.Application.Infrastructure.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace KooliProjekt.Application.Features.OperationTypes
 {
-    public class ListOperationTypesQuery : IRequest<IEnumerable<OperationType>>
+    public class ListOperationTypesQuery : IRequest<OperationResult<PagedResult<OperationTypeListItemDto>>>
     {
+        public int Page { get; set; }
+        public int PageSize { get; set; }
     }
 }
