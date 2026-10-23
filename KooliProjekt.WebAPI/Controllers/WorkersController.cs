@@ -17,29 +17,24 @@ namespace KooliProjekt.WebAPI.Controllers
         [HttpGet("get/{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var query = new GetWorkersQuery { Id = id };
-            var result = await _mediator.Send(query);
-
             if (id <= 0)
             {
                 return NotFound();
             }
 
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            return Json(result);
-        }
-
-        [HttpGet("list")]
-        public async Task<IActionResult> List()
-        {
-            var query = new ListWorkersQuery();
+            var query = new GetWorkersQuery { Id = id };
             var result = await _mediator.Send(query);
 
-            return Json(result);
+            return Result(result);
+        }
+
+        [HttpGet("list/{page}/{pageSize}")]
+        public async Task<IActionResult> List(int page, int pageSize)
+        {
+            var query = new ListWorkersQuery { Page = page, PageSize = pageSize };
+            var result = await _mediator.Send(query);
+
+            return Result(result);
         }
     }
 }

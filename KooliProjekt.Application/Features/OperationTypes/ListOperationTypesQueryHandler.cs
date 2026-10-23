@@ -25,7 +25,7 @@ namespace KooliProjekt.Application.Features.OperationTypes
 
             result.Value = await _dbContext.OperationTypes
                 .AsNoTracking()
-                .OrderBy(t => t.name)
+                .OrderByDescending(t => t.id)
                 .Select(t => new OperationTypeListItemDto
                 {
                     Id = t.id,

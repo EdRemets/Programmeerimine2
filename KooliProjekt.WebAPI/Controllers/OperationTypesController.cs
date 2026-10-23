@@ -17,26 +17,21 @@ namespace KooliProjekt.WebAPI.Controllers
         [HttpGet("get/{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var query = new GetOperationTypesQuery { Id = id };
-            var result = await _mediator.Send(query);
-
             if (id <= 0)
             {
                 return NotFound();
             }
 
-            if (result == null)
-            {
-                return NotFound();
-            }
+            var query = new GetOperationTypesQuery { Id = id };
+            var result = await _mediator.Send(query);
 
-            return Json(result);
+            return Result(result);
         }
 
         [HttpGet("list/{page}/{pageSize}")]
         public async Task<IActionResult> List(int page, int pageSize)
         {
-            var query = new ListOperationTypesQuery { Page =  page, PageSize = pageSize};
+            var query = new ListOperationTypesQuery { Page = page, PageSize = pageSize };
             var result = await _mediator.Send(query);
 
             return Result(result);

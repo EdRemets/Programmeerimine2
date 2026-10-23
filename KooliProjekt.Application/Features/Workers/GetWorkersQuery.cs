@@ -1,12 +1,10 @@
-﻿using KooliProjekt.Application.Data;
+﻿using KooliProjekt.Application.Dto;
+using KooliProjekt.Application.Infrastructure.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace KooliProjekt.Application.Features.Workers
 {
-    public class GetWorkersQuery : IRequest<Worker>
+    public class GetWorkersQuery : IRequest<OperationResult<WorkerDto>>
     {
         public int Id { get; set; }
     }

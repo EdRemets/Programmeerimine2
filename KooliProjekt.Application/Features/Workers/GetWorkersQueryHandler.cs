@@ -1,15 +1,19 @@
 ﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Dto;
 using KooliProjekt.Application.Features.Operations;
+using KooliProjekt.Application.Infrastructure.Results;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.Workers
 {
-    public class GetWorkersQueryHandler : IRequestHandler<GetWorkersQuery, Worker>
+    public class GetWorkersQueryHandler : IRequestHandler<GetWorkersQuery, OperationResult<WorkerDto>>
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -18,11 +22,22 @@ namespace KooliProjekt.Application.Features.Workers
             _dbContext = dbContext;
         }
 
-        public async Task<Worker> Handle(GetWorkersQuery request, CancellationToken cancellationToken)
+        public async Task<OperationResult<WorkerDto>> Handle(GetWorkersQuery request, CancellationToken cancellationToken)
         {
-            var list = await _dbContext.Workers.FindAsync(request.Id, cancellationToken);
+            var result = new OperationResult<WorkerDto>();
 
-            return list;
+            result.Value = await _dbContext.Workers
+            .AsNoTracking()
+            .Where(w => w.id == request.Id)
+            .Select(w => new WorkerDto
+            {
+                Id = w.id,
+                Name = w.name,
+                IsAdmin = w.isAdmin
+            })
+            .FirstOrDefaultAsync(cancellationToken);
+
+            return result;
         }
     }
 }

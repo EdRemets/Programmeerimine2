@@ -1,14 +1,15 @@
 ﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Dto;
+using KooliProjekt.Application.Infrastructure.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.OperationTypes
 {
-    public class GetOperationTypesQueryHandler : IRequestHandler<GetOperationTypesQuery, OperationType>
+    public class GetOperationTypesQueryHandler : IRequestHandler<GetOperationTypesQuery, OperationResult<OperationTypeDto>>
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -17,11 +18,21 @@ namespace KooliProjekt.Application.Features.OperationTypes
             _dbContext = dbContext;
         }
 
-        public async Task<OperationType> Handle(GetOperationTypesQuery request, CancellationToken cancellationToken)
+        public async Task<OperationResult<OperationTypeDto>> Handle(GetOperationTypesQuery request, CancellationToken cancellationToken)
         {
-            var list = await _dbContext.OperationTypes.FindAsync(request.Id, cancellationToken);
+            var result = new OperationResult<OperationTypeDto>();
 
-            return list;
+            result.Value = await _dbContext.OperationTypes
+                .AsNoTracking()
+                .Where(t => t.id == request.Id)
+                .Select(t => new OperationTypeDto
+                {
+                    Id = t.id,
+                    Name = t.name
+                })
+                .FirstOrDefaultAsync(cancellationToken);
+
+            return result;
         }
     }
 }

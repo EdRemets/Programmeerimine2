@@ -1,12 +1,10 @@
-﻿using KooliProjekt.Application.Data;
+﻿using KooliProjekt.Application.Dto;
+using KooliProjekt.Application.Infrastructure.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace KooliProjekt.Application.Features.Operations
 {
-    public class GetOperationsQuery : IRequest<Operation>
+    public class GetOperationsQuery : IRequest<OperationResult<OperationDto>>
     {
         public int Id { get; set; }
     }

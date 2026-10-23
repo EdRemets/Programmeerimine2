@@ -25,7 +25,7 @@ namespace KooliProjekt.Application.Features.Operations
 
             result.Value = await _dbContext.Operations
                 .AsNoTracking()
-                .OrderByDescending(o => o.date)
+                .OrderByDescending(o => o.id)
                 .Select(o => new OperationListItemDto
                 {
                     Id = o.id,
@@ -35,6 +35,7 @@ namespace KooliProjekt.Application.Features.Operations
                     CarName = o.car.manufacturer + " " + o.car.model,
                     LicensePlate = o.car.licensePlate,
                     OperationTypeName = o.operationType.name,
+                    WorkerId = o.worker.id,
                     WorkerName = o.worker.name
                 })
                 .GetPagedAsync(request.Page, request.PageSize);
