@@ -17,8 +17,6 @@ namespace KooliProjekt.Application.Features.Cars
 
         public async Task<OperationResult> Handle(SaveCarsCommand request, CancellationToken cancellationToken)
         {
-            var result = new OperationResult();
-
             var car = new Car();
 
             if (request.Id == 0)
@@ -36,7 +34,7 @@ namespace KooliProjekt.Application.Features.Cars
 
             await _dbContext.SaveChangesAsync();
 
-            return result;
+            return new OperationResult();
         }
     }
 }
