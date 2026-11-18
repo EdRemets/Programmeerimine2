@@ -60,14 +60,17 @@ namespace KooliProjekt.WebAPI.Controllers
         [HttpPost("AddFile")]
         public async Task<IActionResult> AddFile(int id, IFormFile file)
         {
-            var extension = Path.GetExtension(file.FileName);
-            var fileName = Guid.NewGuid().ToString() + extension;
-            using var inputStream = file.OpenReadStream();
+            using var inputStream = file?.OpenReadStream();
 
             var command = new AddFileCommand();
             command.Id = id;
-            command.FileName = fileName;
             command.InputStream = inputStream;
+
+            if (file != null)
+            {
+                var extension = Path.GetExtension(file.FileName);
+                command.FileName = Guid.NewGuid().ToString() + extension;
+            }
 
             var result = await _mediator.Send(command);
 
