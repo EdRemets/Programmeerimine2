@@ -121,7 +121,19 @@ namespace KooliProjekt.Application.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("passwordHash")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("userName")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
                     b.HasKey("id");
+
+                    b.HasIndex("userName")
+                        .IsUnique()
+                        .HasFilter("[userName] IS NOT NULL");
 
                     b.ToTable("Workers");
                 });

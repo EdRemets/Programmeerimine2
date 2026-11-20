@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KooliProjekt.Application.Authentication;
+using System;
 using System.Collections.Generic;
 using System.Formats.Asn1;
 using System.Linq;
@@ -32,8 +33,8 @@ namespace KooliProjekt.Application.Data
         {
             var workers = new List<Worker>
             {
-                new Worker { name = "Mari Tamm", isAdmin = true },
-                new Worker { name = "Jaan Saar", isAdmin = false },
+                new Worker { name = "Mari Tamm", isAdmin = true, userName = "mari", passwordHash = PasswordHelper.Hash("mari123") },
+                new Worker { name = "Jaan Saar", isAdmin = false, userName = "jaan", passwordHash = PasswordHelper.Hash("jaan123") },
                 new Worker { name = "Kati Sepp", isAdmin = false },
                 new Worker { name = "Peeter Mägi", isAdmin = false },
                 new Worker { name = "Liis Kask", isAdmin = false },

@@ -33,7 +33,8 @@ namespace KooliProjekt.Application.Features.Workers
             {
                 Id = w.id,
                 Name = w.name,
-                IsAdmin = w.isAdmin
+                IsAdmin = w.isAdmin,
+                UserName = w.userName
             })
             .FirstOrDefaultAsync(cancellationToken);
 

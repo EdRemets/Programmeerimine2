@@ -17,6 +17,19 @@ namespace KooliProjekt.Application.Features.Workers
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Name is required.")
                 .MaximumLength(50).WithMessage("Name must not exceed 50 characters.");
+
+            RuleFor(x => x.UserName)
+                .Cascade(CascadeMode.Stop)
+                .MaximumLength(25).WithMessage("Username must not exceed 25 characters.")
+                .Must((command, userName) => !dbContext.Workers.Any(worker =>
+                        worker.userName == userName &&
+                        worker.id != command.Id))
+                    .WithMessage("A worker with the same username already exists.")
+                .When(x => !string.IsNullOrWhiteSpace(x.UserName));
+
+            RuleFor(x => x.Password)
+                .NotEmpty().WithMessage("Password is required when creating a worker with username.")
+                .When(x => x.Id == 0 && !string.IsNullOrWhiteSpace(x.UserName));
         }
     }
 }

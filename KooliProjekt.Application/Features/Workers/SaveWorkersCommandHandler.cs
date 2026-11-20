@@ -1,4 +1,5 @@
-﻿using KooliProjekt.Application.Data;
+﻿using KooliProjekt.Application.Authentication;
+using KooliProjekt.Application.Data;
 using KooliProjekt.Application.Infrastructure.Results;
 using MediatR;
 using System.Threading;
@@ -30,6 +31,16 @@ namespace KooliProjekt.Application.Features.Workers
 
             worker.name = request.Name;
             worker.isAdmin = request.IsAdmin;
+
+            if (!string.IsNullOrWhiteSpace(request.UserName))
+            {
+                worker.userName = request.UserName;
+            }
+
+            if (!string.IsNullOrEmpty(request.Password))
+            {
+                worker.passwordHash = PasswordHelper.Hash(request.Password);
+            }
 
             await _dbContext.SaveChangesAsync();
 
