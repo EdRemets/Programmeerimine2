@@ -32,27 +32,46 @@ namespace KooliProjekt.Application.Features.Authentication
                 .AsNoTracking()
                 .FirstOrDefaultAsync(w => w.userName == request.UserName, cancellationToken);
 
-            if (worker == null ||
-                string.IsNullOrEmpty(worker.passwordHash) ||
-                !PasswordHelper.Verify(request.Password, worker.passwordHash))
+            if (worker != null &&
+                !string.IsNullOrEmpty(worker.passwordHash) &&
+                PasswordHelper.Verify(request.Password, worker.passwordHash))
             {
-                result.AddError(InvalidCredentialsError);
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, worker.id.ToString()),
+                    new Claim(ClaimTypes.Name, worker.userName),
+                    new Claim(ClaimTypes.Role, "Worker")
+                };
+
+                if (worker.isAdmin)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                }
+
+                result.Value = _tokenBuilder.GenerateToken(claims.ToArray());
                 return result;
             }
 
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, worker.id.ToString()),
-                new Claim(ClaimTypes.Name, worker.userName)
-            };
+            var client = await _dbContext.Clients
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.userName == request.UserName, cancellationToken);
 
-            if (worker.isAdmin)
+            if (client != null &&
+                !string.IsNullOrEmpty(client.passwordHash) &&
+                PasswordHelper.Verify(request.Password, client.passwordHash))
             {
-                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, client.id.ToString()),
+                    new Claim(ClaimTypes.Name, client.userName),
+                    new Claim(ClaimTypes.Role, "Client")
+                };
+
+                result.Value = _tokenBuilder.GenerateToken(claims.ToArray());
+                return result;
             }
 
-            result.Value = _tokenBuilder.GenerateToken(claims.ToArray());
-
+            result.AddError(InvalidCredentialsError);
             return result;
         }
     }

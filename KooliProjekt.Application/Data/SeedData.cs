@@ -1,9 +1,7 @@
 ﻿using KooliProjekt.Application.Authentication;
 using System;
 using System.Collections.Generic;
-using System.Formats.Asn1;
 using System.Linq;
-using System.Text;
 
 namespace KooliProjekt.Application.Data
 {
@@ -12,19 +10,28 @@ namespace KooliProjekt.Application.Data
 
         public static void Generate(ApplicationDbContext context)
         {
-            if (!context.Workers.Any()) {
+            if (!context.Workers.Any())
+            {
                 SeedWorkers(context);
             }
 
-            if (!context.Cars.Any()) {
+            if (!context.Clients.Any())
+            {
+                SeedClients(context);
+            }
+
+            if (!context.Cars.Any())
+            {
                 SeedCars(context);
             }
 
-            if (!context.OperationTypes.Any()) {
+            if (!context.OperationTypes.Any())
+            {
                 SeedOperationTypes(context);
             }
 
-            if (!context.Operations.Any()) {
+            if (!context.Operations.Any())
+            {
                 SeedOperations(context);
             }
         }
@@ -74,20 +81,34 @@ namespace KooliProjekt.Application.Data
             context.SaveChanges();
         }
 
+        private static void SeedClients(ApplicationDbContext context)
+        {
+            var clients = new List<Client>
+            {
+                new Client { name = "Kalle Kask", email = "kalle@example.com", userName = "kalle", passwordHash = PasswordHelper.Hash("kalle123") },
+                new Client { name = "Liisa Lepp", email = "liisa@example.com", userName = "liisa", passwordHash = PasswordHelper.Hash("liisa123") },
+            };
+            context.Clients.AddRange(clients);
+            context.SaveChanges();
+        }
+
         private static void SeedCars(ApplicationDbContext context)
         {
+            var kalle = context.Clients.First(c => c.userName == "kalle");
+            var liisa = context.Clients.First(c => c.userName == "liisa");
+
             var cars = new List<Car>
 
             {
-                new Car { manufacturer = "Volkswagen", model = "Passat", licensePlate = "123 BKT" },
-                new Car { manufacturer = "Audi", model = "A6", licensePlate = "456 MNR" },
-                new Car { manufacturer = "BMW", model = "530d", licensePlate = "789 TLA" },
-                new Car { manufacturer = "Toyota", model = "Avensis", licensePlate = "101 GHP" },
+                new Car { manufacturer = "Volkswagen", model = "Passat", licensePlate = "123 BKT", client = kalle },
+                new Car { manufacturer = "Audi", model = "A6", licensePlate = "456 MNR", client = kalle },
+                new Car { manufacturer = "BMW", model = "530d", licensePlate = "789 TLA", client = liisa },
+                new Car { manufacturer = "Toyota", model = "Avensis", licensePlate = "101 GHP", client = liisa },
                 new Car { manufacturer = "Skoda", model = "Octavia", licensePlate = "202 KRS" },
-                new Car { manufacturer = "Ford", model = "Focus", licensePlate = "303 VLM" },
+                new Car { manufacturer = "Ford", model = "Focus", licensePlate = "303 VLM", client = kalle },
                 new Car { manufacturer = "Volvo", model = "XC90", licensePlate = "404 BPT" },
                 new Car { manufacturer = "Mercedes-Benz", model = "E220", licensePlate = "505 NHK" },
-                new Car { manufacturer = "Honda", model = "Civic", licensePlate = "606 RSA" },
+                new Car { manufacturer = "Honda", model = "Civic", licensePlate = "606 RSA", client = liisa },
                 new Car { manufacturer = "Kia", model = "Ceed", licensePlate = "707 LTM" },
                 new Car { manufacturer = "Hyundai", model = "i30", licensePlate = "808 HKV" },
                 new Car { manufacturer = "Nissan", model = "Qashqai", licensePlate = "909 PKE" },
@@ -159,6 +180,15 @@ namespace KooliProjekt.Application.Data
                     operationType = types[i % types.Count]
                 });
             }
+
+            operations.Add(new Operation
+            {
+                date = DateTime.Now.AddDays(2),
+                status = Status.Waiting,
+                car = cars[2],
+                worker = null,
+                operationType = types[0]
+            });
 
             context.Operations.AddRange(operations);
             context.SaveChanges();

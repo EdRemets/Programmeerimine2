@@ -16,6 +16,6 @@ namespace KooliProjekt.Application.Features.Operations
         public decimal? Cost { get; set; }
         public int CarId { get; set; }
         public int OperationTypeId { get; set; }
-        public int WorkerId { get; set; }
+        public int? WorkerId { get; set; }
     }
 }

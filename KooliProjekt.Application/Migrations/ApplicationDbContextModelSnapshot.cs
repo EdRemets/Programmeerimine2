@@ -30,6 +30,9 @@ namespace KooliProjekt.Application.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<int?>("clientid")
+                        .HasColumnType("int");
+
                     b.Property<string>("licensePlate")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -47,7 +50,44 @@ namespace KooliProjekt.Application.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("clientid");
+
                     b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("KooliProjekt.Application.Data.Client", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("email")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("passwordHash")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("phone")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("userName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("KooliProjekt.Application.Data.Operation", b =>
@@ -73,7 +113,7 @@ namespace KooliProjekt.Application.Migrations
                     b.Property<int>("status")
                         .HasColumnType("int");
 
-                    b.Property<int>("workerid")
+                    b.Property<int?>("workerid")
                         .HasColumnType("int");
 
                     b.HasKey("id");
@@ -138,6 +178,15 @@ namespace KooliProjekt.Application.Migrations
                     b.ToTable("Workers");
                 });
 
+            modelBuilder.Entity("KooliProjekt.Application.Data.Car", b =>
+                {
+                    b.HasOne("KooliProjekt.Application.Data.Client", "client")
+                        .WithMany()
+                        .HasForeignKey("clientid");
+
+                    b.Navigation("client");
+                });
+
             modelBuilder.Entity("KooliProjekt.Application.Data.Operation", b =>
                 {
                     b.HasOne("KooliProjekt.Application.Data.Car", "car")
@@ -154,9 +203,7 @@ namespace KooliProjekt.Application.Migrations
 
                     b.HasOne("KooliProjekt.Application.Data.Worker", "worker")
                         .WithMany()
-                        .HasForeignKey("workerid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("workerid");
 
                     b.Navigation("car");
 

@@ -24,7 +24,6 @@ namespace KooliProjekt.Application.Data
         [Required]
         public OperationType operationType { get; set; }
 
-        [Required]
         public Worker worker { get; set; }
     }
 }

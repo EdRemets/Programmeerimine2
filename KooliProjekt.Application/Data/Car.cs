@@ -21,5 +21,7 @@ namespace KooliProjekt.Application.Data
         [Required]
         [StringLength(20)]
         public string licensePlate { get; set; }
+
+        public Client client { get; set; }
     }
 }

@@ -21,8 +21,16 @@ namespace KooliProjekt.Application.Features.Operations
 
             var car = await _dbContext.FindAsync<Car>(request.CarId);
             var operationType = await _dbContext.FindAsync<OperationType>(request.OperationTypeId);
-            var worker = await _dbContext.FindAsync<Worker>(request.WorkerId);
+            Worker worker = null;
 
+            if (request.WorkerId != null)
+            {
+                worker = await _dbContext.FindAsync<Worker>(request.WorkerId.Value);
+                if (worker == null)
+                {
+                    result.AddError("Worker not found.");
+                }
+            }
             if (car == null)
             {
                 result.AddError("Car not found.");
@@ -30,10 +38,6 @@ namespace KooliProjekt.Application.Features.Operations
             if (operationType == null)
             {
                 result.AddError("OperationType not found.");
-            }
-            if (worker == null)
-            {
-                result.AddError("Worker not found.");
             }
             if (result.HasErrors)
             {

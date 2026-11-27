@@ -25,6 +25,8 @@ namespace KooliProjekt.Application.Features.Workers
                         worker.userName == userName &&
                         worker.id != command.Id))
                     .WithMessage("A worker with the same username already exists.")
+                .Must(userName => !dbContext.Clients.Any(client => client.userName == userName))
+                    .WithMessage("A client with the same username already exists.")
                 .When(x => !string.IsNullOrWhiteSpace(x.UserName));
 
             RuleFor(x => x.Password)

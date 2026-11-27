@@ -14,6 +14,7 @@ namespace KooliProjekt.Application.Data
         }
 
         public DbSet<Worker> Workers { get; set; }
+        public DbSet<Client> Clients { get; set; }
         public DbSet<Operation> Operations { get; set; }
         public DbSet<OperationType> OperationTypes { get; set; }
         public DbSet<Car> Cars { get; set; }

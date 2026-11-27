@@ -41,7 +41,8 @@ namespace KooliProjekt.Application.Features.Operations
                 .Cascade(CascadeMode.Stop)
                 .GreaterThanOrEqualTo(1).WithMessage("WorkerId must be greater than or equal to 1.")
                 .Must(workerId => dbContext.Workers.Any(worker => worker.id == workerId))
-                    .WithMessage("The specified worker does not exist.");
+                    .WithMessage("The specified worker does not exist.")
+                .When(x => x.WorkerId != null);
         }
     }
 }
